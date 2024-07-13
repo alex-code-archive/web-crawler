@@ -1,16 +1,30 @@
 import { normalizeURL } from './crawl.js'
 import { test, expect } from '@jest/globals'
 
-test('normalized url is equivalent', () => {
-  const baseURL = 'blog.boot.dev/path'
-  const urlsToTest = [
-    'https://blog.boot.dev/path/',
-    'https://blog.boot.dev/path',
-    'http://blog.boot.dev/path/',
-    'http://blog.boot.dev/path'
-  ]
-  for(let url of urlsToTest) {
-    const normalizedURL = normalizeURL(url)
-    expect(normalizedURL).toBe(baseURL)
-  }
+test('normalizeURL protocol', () => {
+  const input = 'https://blog.boot.dev/path'
+  const actual = normalizeURL(input)
+  const expected = 'blog.boot.dev/path'
+  expect(actual).toEqual(expected)
+})
+
+test('normalizeURL slash', () => {
+  const input = 'https://blog.boot.dev/path/'
+  const actual = normalizeURL(input)
+  const expected = 'blog.boot.dev/path'
+  expect(actual).toEqual(expected)
+})
+
+test('normalizeURL capitals', () => {
+  const input = 'https://BLOG.boot.dev/path'
+  const actual = normalizeURL(input)
+  const expected = 'blog.boot.dev/path'
+  expect(actual).toEqual(expected)
+})
+
+test('normalizeURL http', () => {
+  const input = 'http://BLOG.boot.dev/path'
+  const actual = normalizeURL(input)
+  const expected = 'blog.boot.dev/path'
+  expect(actual).toEqual(expected)
 })
