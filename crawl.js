@@ -27,21 +27,22 @@ function getURLsFromHTML(htmlBody, baseURL) {
   return urls;
 }
 
-function crawlPage(baseURL) {
+async function crawlPage(baseURL) {
+  let res;
   try {
-    const res = fetch(baseURL);
-    if (res.status >= 400) {
-      console.log(`Error with status code ${res.status}`);
-      return;
-    }
-    if (res.headers.get("content-type" !== "text/html")) {
-      console.log("Content type is not text/html.");
-      return;
-    }
-    console.log(res.text());
+    res = await fetch(baseURL);
   } catch (err) {
     console.log(err.message);
   }
+  if (res.status >= 400) {
+    console.log(`Error with status code ${res.status}`);
+    return;
+  }
+  if (res.headers.get("content-type" !== "text/html")) {
+    console.log("Content type is not text/html.");
+    return;
+  }
+  console.log(await res.text());
 }
 // getURLsFromHTML(
 //   '<html><body><a href="/path/one"><span>Boot.dev></span></a><a href="https://other.com/path/one"><span>Boot.dev></span></a></body></html>',
