@@ -32,13 +32,14 @@ async function crawlPage(baseURL) {
   try {
     res = await fetch(baseURL);
   } catch (err) {
-    console.log(err.message);
+    throw new Error(`Got Network error: ${err.message}`);
   }
   if (res.status >= 400) {
     console.log(`Error with status code ${res.status}`);
     return;
   }
-  if (res.headers.get("content-type" !== "text/html")) {
+  const type = res.headers.get("content-type");
+  if (!type.includes("text/html")) {
     console.log("Content type is not text/html.");
     return;
   }
