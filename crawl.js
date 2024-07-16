@@ -26,9 +26,26 @@ function getURLsFromHTML(htmlBody, baseURL) {
   }
   return urls;
 }
-getURLsFromHTML(
-  '<html><body><a href="/path/one"><span>Boot.dev></span></a><a href="https://other.com/path/one"><span>Boot.dev></span></a></body></html>',
-);
-normalizeURL("https://www.blog.boot.dev/path/to/blog/");
 
-export { normalizeURL, getURLsFromHTML };
+function crawlPage(baseURL) {
+  try {
+    const res = fetch(baseURL);
+    if (res.status >= 400) {
+      console.log(`Error with status code ${res.status}`);
+      return;
+    }
+    if (res.headers.get("content-type" !== "text/html")) {
+      console.log("Content type is not text/html.");
+      return;
+    }
+    console.log(res.text());
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+// getURLsFromHTML(
+//   '<html><body><a href="/path/one"><span>Boot.dev></span></a><a href="https://other.com/path/one"><span>Boot.dev></span></a></body></html>',
+// );
+// normalizeURL("https://www.blog.boot.dev/path/to/blog/");
+
+export { normalizeURL, getURLsFromHTML, crawlPage };
