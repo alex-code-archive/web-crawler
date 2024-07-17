@@ -27,7 +27,12 @@ function getURLsFromHTML(htmlBody, baseURL) {
   return urls;
 }
 
-async function crawlPage(baseURL) {
+async function crawlPage(baseURL, currentURL = baseURL, pages = {}) {
+  currentURL = new URL(currentURL);
+  baseURL = new URL(baseURL);
+  console.log(currentURL.hostname);
+  console.log(baseURL.hostname);
+
   let res;
   try {
     res = await fetch(baseURL);
